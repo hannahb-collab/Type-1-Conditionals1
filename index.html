@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Conditional Speed Typing Rush - Light Theme</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Confetti JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #fbcfe8 100%);
+            color: #0f172a;
+            min-height: 100vh;
+            user-select: none;
+        }
+        .font-outfit {
+            font-family: 'Outfit', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px -5px rgba(14, 165, 233, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+        }
+        .light-input {
+            background: #ffffff;
+            border: 2px solid #38bdf8;
+            color: #0369a1;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+        .light-input:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.15);
+            color: #0f172a;
+        }
+        .btn-action {
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -4px rgba(14, 165, 233, 0.3);
+        }
+        .btn-action:active {
+            transform: translateY(1px);
+        }
+        .floating-coin-popup {
+            animation: floatUp 1s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+        }
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translateY(10px) scale(0.8); }
+            30% { opacity: 1; transform: translateY(-20px) scale(1.15); }
+            100% { opacity: 0; transform: translateY(-50px) scale(1); }
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between min-h-screen">
+
+    <header class="w-full bg-white/90 backdrop-blur-md border-b border-sky-100 px-4 py-3 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-sky-400 to-blue-600 p-2.5 rounded-2xl shadow-md text-white">
+                    <span class="text-2xl">🏎️</span>
+                </div>
+                <div>
+                    <h1 class="font-outfit font-black text-lg sm:text-2xl text-slate-900 tracking-tight">
+                        FIRST CONDITIONAL <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-indigo-500 to-pink-500">SPEED RUSH</span>
+                    </h1>
+                    <p class="text-xs font-bold text-sky-600 tracking-wider uppercase">BRIGHT LIGHT EDITION</p>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Header Reset Button -->
+                <button id="headerResetBtn" onclick="confirmResetGame()" class="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-xs font-bold font-outfit transition flex items-center gap-1.5 shadow-sm" title="Reset Race / Switch Driver">
+                    <span>🔄</span> <span class="hidden sm:inline">RESET RACE</span>
+                </button>
+
+                <!-- Audio SFX Toggle -->
+                <button id="soundToggleBtn" onclick="toggleAudio()" class="px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 hover:border-sky-300 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                    <span id="soundIcon">🔊</span> <span id="soundText" class="hidden sm:inline">SFX: ON</span>
+                </button>
+
+                <!-- Coins Display -->
+                <div class="flex items-center gap-2 bg-amber-50 px-3.5 py-2 rounded-xl border border-amber-200 shadow-sm">
+                    <span class="text-amber-500 text-base sm:text-lg">🪙</span>
+                    <span id="globalCoins" class="font-outfit text-amber-700 font-black text-sm sm:text-base">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-grow flex flex-col justify-center">
+
+        <!-- SECTION 1: DRIVER PROFILE SELECTION -->
+        <section id="profileSection" class="block space-y-6">
+            <div class="text-center space-y-2">
+                <span class="px-3.5 py-1 rounded-full text-xs font-bold font-outfit bg-sky-100 text-sky-700 border border-sky-200 uppercase tracking-widest">
+                    CLASSROOM GRAMMAR RACE
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-outfit font-black text-slate-900 tracking-tight">
+                    SELECT DRIVER PROFILE
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto font-medium">
+                    Pick your name, type the correct First Conditional verb forms, and race to set the high score!
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Driver Roster Grid -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="text-xs font-bold text-sky-700 uppercase tracking-wider flex justify-between items-center px-1">
+                        <span>CLASS ROSTER (23 STUDENTS + TEACHER)</span>
+                        <span class="text-slate-400 font-mono">SELECT ONE TO START</span>
+                    </div>
+
+                    <div id="playerGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[50vh] overflow-y-auto p-3.5 bg-white/80 rounded-2xl border border-slate-200 shadow-inner">
+                        <!-- Player tiles generated dynamically -->
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-4 rounded-2xl shadow-md border border-slate-200">
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-400 to-indigo-500 flex items-center justify-center font-outfit text-xl font-bold text-white shadow-md" id="selectedAvatar">
+                                ?
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 uppercase font-bold">Selected Driver</div>
+                                <div id="selectedName" class="text-lg font-extrabold text-slate-900 font-outfit">Select a Player</div>
+                            </div>
+                        </div>
+
+                        <button id="startRaceBtn" disabled onclick="startGame()" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl font-outfit font-black text-base tracking-wider bg-slate-200 text-slate-400 cursor-not-allowed transition-all">
+                            ENTER CIRCUIT 🏎️
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Leaderboard Side Preview -->
+                <div class="glass-card p-5 rounded-2xl space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl">🏆</span>
+                                <h3 class="font-outfit font-extrabold text-slate-900 text-sm">CLASS LEADERBOARD</h3>
+                            </div>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold">CLEAN SLATE</span>
+                        </div>
+                        <div class="max-h-[350px] overflow-y-auto mt-3">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="text-slate-400 font-bold uppercase border-b border-slate-100 pb-1">
+                                        <th class="py-1">#</th>
+                                        <th class="py-1">Driver</th>
+                                        <th class="py-1 text-right">Coins</th>
+                                        <th class="py-1 text-right">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="previewLeaderboardBody" class="divide-y divide-slate-100 font-semibold">
+                                    <!-- Saved scores load here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-slate-100 text-center">
+                        <span class="text-[11px] text-slate-400 italic">Scores update live as real students play!</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: GAMEPLAY RACE SCREEN -->
+        <section id="gameSection" class="hidden space-y-6">
+            <!-- Dashboard HUD -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white/90 p-3 sm:p-4 rounded-2xl border border-sky-100 shadow-sm">
+                <!-- Timer -->
+                <div class="flex flex-col items-center justify-center bg-sky-50/80 p-2.5 rounded-xl border border-sky-200">
+                    <span class="text-[10px] text-sky-700 uppercase font-extrabold tracking-wider">LAP TIME</span>
+                    <span id="timerDisplay" class="font-outfit font-black text-xl sm:text-2xl text-sky-900">00:00.0</span>
+                </div>
+
+                <!-- Streak Multiplier -->
+                <div class="flex flex-col items-center justify-center bg-pink-50/80 p-2.5 rounded-xl border border-pink-200">
+                    <span class="text-[10px] text-pink-700 uppercase font-extrabold tracking-wider">NITRO BOOST</span>
+                    <div class="flex items-center gap-1">
+                        <span id="comboMultiplier" class="font-outfit font-black text-xl sm:text-2xl text-pink-600">1.0x</span>
+                        <span id="streakFire" class="text-lg opacity-30">⚡</span>
+                    </div>
+                </div>
+
+                <!-- Race Coins -->
+                <div class="flex flex-col items-center justify-center bg-amber-50/80 p-2.5 rounded-xl border border-amber-200">
+                    <span class="text-[10px] text-amber-700 uppercase font-extrabold tracking-wider">EARNED COINS</span>
+                    <span id="raceCoins" class="font-outfit font-black text-xl sm:text-2xl text-amber-600">0</span>
+                </div>
+
+                <!-- Driver Name -->
+                <div class="flex flex-col items-center justify-center bg-indigo-50/80 p-2.5 rounded-xl border border-indigo-200">
+                    <span class="text-[10px] text-indigo-700 uppercase font-extrabold tracking-wider">ACTIVE DRIVER</span>
+                    <span id="activeDriverName" class="font-outfit font-bold text-sm sm:text-base text-indigo-900 truncate max-w-[120px]">Driver</span>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="bg-white/80 p-3 rounded-2xl border border-slate-200 space-y-1.5 shadow-sm">
+                <div class="flex justify-between text-xs font-bold text-slate-500 px-1">
+                    <span>CIRCUIT PROGRESS: <span id="questionNumText" class="text-sky-600 font-outfit">1</span>/<span id="totalQuestionsText">15</span></span>
+                    <span id="accuracyMini" class="font-mono text-slate-600">ACCURACY: 100%</span>
+                </div>
+                <div class="relative w-full h-3.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200 p-0.5">
+                    <div id="progressBar" class="h-full bg-gradient-to-r from-sky-400 via-indigo-500 to-pink-500 rounded-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Sentence Input Card -->
+                <div class="lg:col-span-2 glass-card p-6 sm:p-8 rounded-3xl border-2 border-sky-200 relative overflow-hidden shadow-xl space-y-6">
+                    <div id="popupContainer" class="absolute inset-0 pointer-events-none flex items-center justify-center z-20"></div>
+
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold font-outfit bg-sky-100 text-sky-700 border border-sky-200">
+                            FIRST CONDITIONAL (TYPE 1)
+                        </span>
+                        <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200" id="promptCue">
+                            TYPE THE VERB FORMS
+                        </span>
+                    </div>
+
+                    <!-- Sentence Container -->
+                    <form id="typingForm" onsubmit="handleTypingSubmit(event)" class="space-y-6">
+                        <div id="sentenceDisplay" class="text-xl sm:text-2xl font-extrabold leading-relaxed text-slate-800 py-2">
+                            <!-- Dynamic inputs populated here -->
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="btn-action w-full py-4 bg-gradient-to-r from-sky-500 via-indigo-500 to-pink-500 hover:from-sky-400 hover:to-pink-400 text-white font-outfit font-black text-lg rounded-2xl shadow-md flex items-center justify-center gap-2">
+                            <span>⚡</span> SUBMIT ANSWER [ENTER]
+                        </button>
+                    </form>
+
+                    <!-- Feedback Alert Box -->
+                    <div id="feedbackBox" class="hidden p-3.5 rounded-xl border text-sm font-bold font-mono transition">
+                        <!-- Success / Error messages -->
+                    </div>
+                </div>
+
+                <!-- Side Live Leaderboard -->
+                <div class="glass-card p-5 rounded-3xl border border-indigo-100 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl">🏁</span>
+                                <h3 class="font-outfit font-extrabold text-slate-900 text-sm">RACE DASH</h3>
+                            </div>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold">RACING</span>
+                        </div>
+
+                        <div class="max-h-[300px] overflow-y-auto mt-3">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="text-slate-400 font-bold uppercase border-b border-slate-100 pb-1">
+                                        <th class="py-1 pl-1">#</th>
+                                        <th class="py-1">Driver</th>
+                                        <th class="py-1 text-right">Coins</th>
+                                        <th class="py-1 text-right">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="liveLeaderboardBody" class="divide-y divide-slate-100 font-semibold">
+                                    <!-- Dynamic entries -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-sky-50/80 rounded-xl border border-sky-100 text-xs space-y-1">
+                        <div class="text-sky-700 font-bold uppercase font-outfit">Pro Tip:</div>
+                        <p class="text-slate-600">Press <kbd class="px-1.5 py-0.5 bg-white rounded border border-slate-200 text-sky-700 font-mono shadow-sm">Tab</kbd> to jump gaps and <kbd class="px-1.5 py-0.5 bg-white rounded border border-slate-200 text-sky-700 font-mono shadow-sm">Enter</kbd> to submit!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: RESULTS & PODIUM -->
+        <section id="resultsSection" class="hidden space-y-6">
+            <div class="glass-card p-6 sm:p-10 rounded-3xl border-2 border-sky-200 shadow-xl text-center space-y-6 relative overflow-hidden">
+                <div class="inline-block bg-gradient-to-r from-amber-400 via-pink-500 to-sky-400 text-white font-outfit font-black text-xs uppercase px-4 py-1.5 rounded-full shadow-sm">
+                    RACE FINISHED!
+                </div>
+
+                <h2 id="resultTitle" class="text-3xl sm:text-5xl font-outfit font-black text-slate-900">
+                    GREAT LAP!
+                </h2>
+
+                <!-- Final Stats -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 py-2">
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs text-slate-400 font-bold uppercase">Lap Time</div>
+                        <div id="finalTime" class="font-outfit font-black text-xl text-sky-600">00:00.0</div>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs text-slate-400 font-bold uppercase">Coins Earned</div>
+                        <div id="finalCoins" class="font-outfit font-black text-xl text-amber-500">0</div>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs text-slate-400 font-bold uppercase">Accuracy</div>
+                        <div id="finalAccuracy" class="font-outfit font-black text-xl text-emerald-600">100%</div>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs text-slate-400 font-bold uppercase">Max Nitro Streak</div>
+                        <div id="finalCombo" class="font-outfit font-black text-xl text-pink-500">0x</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+                    <button onclick="startGame()" class="btn-action px-8 py-3.5 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-outfit font-black text-base rounded-2xl shadow-md flex items-center justify-center gap-2">
+                        <span>🏁</span> RACE AGAIN
+                    </button>
+                    <button onclick="showProfileSelect()" class="btn-action px-8 py-3.5 bg-white hover:bg-slate-50 text-slate-700 font-outfit font-bold text-base rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center gap-2">
+                        <span>👤</span> SWITCH DRIVER
+                    </button>
+                </div>
+            </div>
+
+            <!-- Leaderboard Card -->
+            <div class="glass-card p-6 rounded-3xl space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl">🏆</span>
+                        <h3 class="font-outfit font-extrabold text-lg text-slate-900">CLASS CIRCUIT LEADERBOARD</h3>
+                    </div>
+                    <button onclick="resetLeaderboardData()" class="text-xs text-rose-600 hover:text-rose-700 hover:underline font-bold bg-rose-50 border border-rose-200 px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                        <span>🗑️</span> Reset Class Leaderboard
+                    </button>
+                </div>
+
+                <div class="max-h-72 overflow-y-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="text-xs text-slate-400 font-bold uppercase border-b border-slate-100 pb-2">
+                                <th class="py-2 pl-2">#</th>
+                                <th class="py-2">Driver</th>
+                                <th class="py-2 text-right">Coins</th>
+                                <th class="py-2 text-right">Lap Time</th>
+                                <th class="py-2 text-right pr-2">Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody id="finalLeaderboardBody" class="divide-y divide-slate-100 font-semibold">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full py-3 text-center text-xs text-slate-500 border-t border-slate-200 bg-white/80">
+        First Conditional Speed Rush &bull; Light Theme Edition
+    </footer>
+
+    <script>
+        /* Player Roster: 23 Students + Ms Barker */
+        const ROSTER = [
+            "Ms Barker", "Billy", "Nathan", "Hazel", "Cherry", "Alex", "Ken", 
+            "Chloe Lau", "Mabel", "Michael", "Emma", "Polly", "Kiki", 
+            "Aimee", "Chloe Wong", "Cyrus", "Issac", "Pierce", "Fabian", 
+            "Vincent", "Kitty", "yuki", "Ryson", "Leo"
+        ];
+
+        /* Extracted First Conditional Exercises */
+        const TYPING_QUESTION_BANK = [
+            {
+                template: "If Robert {g1} to bed late tonight, he {g2} in.",
+                cues: ["go", "sleep in"],
+                answers: [["goes"], ["will sleep in", "'ll sleep in"]]
+            },
+            {
+                template: "If he {g1} his bus, he {g2} late for work.",
+                cues: ["miss", "be"],
+                answers: [["misses"], ["will be", "'ll be"]]
+            },
+            {
+                template: "If he {g1} late for work, his boss {g2} angry.",
+                cues: ["be", "be"],
+                answers: [["is", "'s"], ["will be", "'ll be"]]
+            },
+            {
+                template: "If Robert's boss {g1} angry, he {g2} him.",
+                cues: ["be", "fire"],
+                answers: [["is", "'s"], ["will fire", "'ll fire"]]
+            },
+            {
+                template: "If Robert {g1} his job, his girlfriend {g2} upset with him.",
+                cues: ["lose", "get"],
+                answers: [["loses"], ["will get", "'ll get"]]
+            },
+            {
+                template: "If she {g1} with him, he {g2} lonely.",
+                cues: ["break up", "be"],
+                answers: [["breaks up"], ["will be", "'ll be"]]
+            },
+            {
+                template: "If Robert {g1} lonely, he {g2} some friends.",
+                cues: ["feel", "call"],
+                answers: [["feels"], ["will call", "'ll call"]]
+            },
+            {
+                template: "If she goes to the birthday party on Sunday, she {g1} a present.",
+                cues: ["take"],
+                answers: [["will take", "'ll take"]]
+            },
+            {
+                template: "I {g1} the doctor if my stomach still hurts tomorrow.",
+                cues: ["call"],
+                answers: [["will call", "'ll call"]]
+            },
+            {
+                template: "She will do the exercise again if she {g1} a lot of mistakes.",
+                cues: ["make"],
+                answers: [["makes"]]
+            },
+            {
+                template: "If they practise a lot, they {g1} the game next weekend.",
+                cues: ["win"],
+                answers: [["will win", "'ll win"]]
+            },
+            {
+                template: "I will take my umbrella if it {g1} tomorrow.",
+                cues: ["rain"],
+                answers: [["rains"]]
+            },
+            {
+                template: "She will marry him if he {g1} her.",
+                cues: ["ask"],
+                answers: [["asks"]]
+            },
+            {
+                template: "If we go out tonight, we {g1} the door.",
+                cues: ["lock"],
+                answers: [["will lock", "'ll lock"]]
+            },
+            {
+                template: "I will make a sandwich if I {g1} hungry.",
+                cues: ["be"],
+                answers: [["am", "'m"]]
+            },
+            {
+                template: "We {g1} tennis tomorrow if it {g2}.",
+                cues: ["not play", "rain"],
+                answers: [["won't play", "will not play"], ["rains"]]
+            },
+            {
+                template: "She {g1} the children play in the house if they {g2} too much noise.",
+                cues: ["let", "not make"],
+                answers: [["will let", "'ll let"], ["don't make", "do not make"]]
+            },
+            {
+                template: "If we {g1}, we {g2} our plane.",
+                cues: ["not hurry", "miss"],
+                answers: [["don't hurry", "do not hurry"], ["will miss", "'ll miss"]]
+            },
+            {
+                template: "The bee {g1} you if you {g2}.",
+                cues: ["not sting", "not move"],
+                answers: [["won't sting", "will not sting"], ["don't move", "do not move"]]
+            },
+            {
+                template: "You {g1} your test if you {g2} harder.",
+                cues: ["not pass", "not study"],
+                answers: [["won't pass", "will not pass"], ["don't study", "do not study"]]
+            }
+        ];
+
+        /* State Variables */
+        let activePlayer = null;
+        let activeQuestions = [];
+        let currentQuestionIdx = 0;
+        let scoreCoins = 0;
+        let streak = 0;
+        let maxStreak = 0;
+        let correctAnswersCount = 0;
+        let totalAttempts = 0;
+        let startTime = null;
+        let timerInterval = null;
+        let audioEnabled = true;
+
+        /* Web Audio API Synthesizer */
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) audioCtx = new AudioContext();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            document.getElementById('soundIcon').innerText = audioEnabled ? '🔊' : '🔇';
+            document.getElementById('soundText').innerText = audioEnabled ? 'SFX: ON' : 'SFX: OFF';
+        }
+
+        function playTone(freq, type, duration, gainValue = 0.1) {
+            if (!audioEnabled) return;
+            try {
+                initAudio();
+                if (!audioCtx) return;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(gainValue, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        function playSoundFx(effect) {
+            if (!audioEnabled) return;
+            if (effect === 'correct') {
+                playTone(523.25, 'sine', 0.12, 0.15);
+                setTimeout(() => playTone(659.25, 'sine', 0.15, 0.15), 70);
+                setTimeout(() => playTone(783.99, 'sine', 0.2, 0.15), 140);
+            } else if (effect === 'wrong') {
+                playTone(200, 'sawtooth', 0.2, 0.2);
+                setTimeout(() => playTone(150, 'sawtooth', 0.25, 0.2), 90);
+            } else if (effect === 'nitro') {
+                playTone(440, 'triangle', 0.1, 0.2);
+                setTimeout(() => playTone(880, 'sine', 0.3, 0.25), 80);
+            } else if (effect === 'finish') {
+                playTone(523.25, 'sine', 0.15, 0.2);
+                setTimeout(() => playTone(659.25, 'sine', 0.15, 0.2), 100);
+                setTimeout(() => playTone(783.99, 'sine', 0.15, 0.2), 200);
+                setTimeout(() => playTone(1046.50, 'sine', 0.4, 0.25), 300);
+            }
+        }
+
+        /* Initial Setup */
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPlayerGrid();
+            loadLeaderboard();
+        });
+
+        function renderPlayerGrid() {
+            const grid = document.getElementById('playerGrid');
+            grid.innerHTML = '';
+
+            ROSTER.forEach(name => {
+                const isTeacher = name === "Ms Barker";
+                const initial = isTeacher ? "👑" : name.charAt(0).toUpperCase();
+                const tile = document.createElement('button');
+                
+                tile.className = `player-tile p-3 rounded-xl border ${isTeacher ? 'border-amber-300 bg-amber-50 hover:bg-amber-100 shadow-sm' : 'border-slate-200 bg-white hover:border-sky-300 hover:bg-sky-50/50'} flex items-center gap-3 transition text-left group relative overflow-hidden shadow-sm`;
+                tile.onclick = () => selectPlayer(name, tile);
+
+                tile.innerHTML = `
+                    <div class="w-9 h-9 rounded-lg ${isTeacher ? 'bg-amber-500 text-white font-bold' : 'bg-sky-100 text-sky-700 group-hover:bg-sky-500 group-hover:text-white'} flex items-center justify-center font-outfit font-bold text-sm transition shrink-0">
+                        ${initial}
+                    </div>
+                    <div class="flex flex-col truncate">
+                        <span class="font-bold ${isTeacher ? 'text-amber-900' : 'text-slate-800'} text-sm truncate">${name}</span>
+                        ${isTeacher ? '<span class="text-[9px] text-amber-600 font-extrabold tracking-wider uppercase font-outfit">TEACHER VIP</span>' : ''}
+                    </div>
+                `;
+                grid.appendChild(tile);
+            });
+        }
+
+        function selectPlayer(name, element) {
+            initAudio();
+            playTone(440, 'sine', 0.08, 0.1);
+
+            activePlayer = name;
+            const isTeacher = name === "Ms Barker";
+
+            document.querySelectorAll('.player-tile').forEach(t => {
+                t.classList.remove('ring-2', 'ring-sky-500', 'ring-amber-500', 'bg-sky-50', 'bg-amber-100');
+            });
+            
+            if (isTeacher) {
+                element.classList.add('ring-2', 'ring-amber-500', 'bg-amber-100');
+                document.getElementById('selectedAvatar').className = "w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-pink-500 flex items-center justify-center font-outfit text-2xl font-bold text-white shadow-md border-2 border-amber-300";
+                document.getElementById('selectedAvatar').innerText = "👑";
+                document.getElementById('selectedName').innerHTML = `Ms Barker <span class="text-xs bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full font-bold ml-1">Teacher</span>`;
+            } else {
+                element.classList.add('ring-2', 'ring-sky-500', 'bg-sky-50');
+                document.getElementById('selectedAvatar').className = "w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-400 to-indigo-600 flex items-center justify-center font-outfit text-xl font-bold text-white shadow-md";
+                document.getElementById('selectedAvatar').innerText = name.charAt(0).toUpperCase();
+                document.getElementById('selectedName').innerText = name;
+            }
+
+            const startBtn = document.getElementById('startRaceBtn');
+            startBtn.disabled = false;
+            startBtn.className = "w-full sm:w-auto px-8 py-3.5 rounded-2xl font-outfit font-black text-base tracking-wider bg-gradient-to-r from-sky-500 via-indigo-500 to-pink-500 hover:from-sky-400 hover:to-pink-400 text-white cursor-pointer shadow-md btn-action";
+        }
+
+        function confirmResetGame() {
+            initAudio();
+            showProfileSelect();
+        }
+
+        function startGame() {
+            if (!activePlayer) return;
+            initAudio();
+
+            scoreCoins = 0;
+            streak = 0;
+            maxStreak = 0;
+            correctAnswersCount = 0;
+            totalAttempts = 0;
+            currentQuestionIdx = 0;
+
+            activeQuestions = [...TYPING_QUESTION_BANK].sort(() => Math.random() - 0.5);
+
+            document.getElementById('profileSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('gameSection').classList.remove('hidden');
+
+            document.getElementById('activeDriverName').innerText = activePlayer;
+            document.getElementById('totalQuestionsText').innerText = activeQuestions.length;
+
+            updateScoreboardUI();
+            startTimer();
+            renderQuestion();
+        }
+
+        function startTimer() {
+            startTime = Date.now();
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const secs = Math.floor(elapsed / 1000);
+                const mins = Math.floor(secs / 60);
+                const remSecs = secs % 60;
+                const ms = Math.floor((elapsed % 1000) / 100);
+
+                const formatted = `${String(mins).padStart(2, '0')}:${String(remSecs).padStart(2, '0')}.${ms}`;
+                document.getElementById('timerDisplay').innerText = formatted;
+            }, 100);
+        }
+
+        function renderQuestion() {
+            if (currentQuestionIdx >= activeQuestions.length) {
+                finishGame();
+                return;
+            }
+
+            const q = activeQuestions[currentQuestionIdx];
+
+            document.getElementById('questionNumText').innerText = currentQuestionIdx + 1;
+            const progressPct = ((currentQuestionIdx) / activeQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progressPct}%`;
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.className = "hidden";
+
+            let displayHTML = q.template;
+
+            q.answers.forEach((ansArr, gapIdx) => {
+                const cue = q.cues[gapIdx];
+                const inputId = `gap_input_${gapIdx}`;
+                
+                const inputHTML = `
+                    <span class="inline-flex flex-col mx-1 my-1 align-middle">
+                        <span class="text-[11px] font-mono font-extrabold text-sky-800 bg-sky-100 border border-sky-300 px-2 py-0.5 rounded-t-md text-center">(${cue})</span>
+                        <input type="text" id="${inputId}" name="${inputId}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" 
+                            class="light-input font-mono font-extrabold text-base sm:text-xl px-3 py-1.5 rounded-b-md text-center w-36 sm:w-44 border-t-0" placeholder="type answer...">
+                    </span>
+                `;
+                displayHTML = displayHTML.replace(`{g${gapIdx + 1}}`, inputHTML);
+            });
+
+            document.getElementById('sentenceDisplay').innerHTML = displayHTML;
+
+            setTimeout(() => {
+                const firstInput = document.getElementById('gap_input_0');
+                if (firstInput) firstInput.focus();
+            }, 50);
+        }
+
+        function handleTypingSubmit(event) {
+            event.preventDefault();
+            if (currentQuestionIdx >= activeQuestions.length) return;
+
+            const q = activeQuestions[currentQuestionIdx];
+            totalAttempts++;
+
+            let allGapCorrect = true;
+
+            q.answers.forEach((possibleAnswers, gapIdx) => {
+                const inputElem = document.getElementById(`gap_input_${gapIdx}`);
+                const val = inputElem ? inputElem.value.trim().toLowerCase().replace(/\s+/g, ' ') : '';
+
+                const isGapCorrect = possibleAnswers.some(ans => ans.toLowerCase() === val);
+                if (!isGapCorrect) {
+                    allGapCorrect = false;
+                }
+            });
+
+            const feedbackBox = document.getElementById('feedbackBox');
+
+            if (allGapCorrect) {
+                correctAnswersCount++;
+                streak++;
+                if (streak > maxStreak) maxStreak = streak;
+
+                let multiplier = 1.0;
+                if (streak >= 5) multiplier = 2.0;
+                else if (streak >= 3) multiplier = 1.5;
+                else if (streak >= 2) multiplier = 1.2;
+
+                const baseCoins = 120;
+                const earned = Math.round(baseCoins * multiplier);
+                scoreCoins += earned;
+
+                playSoundFx(streak >= 3 ? 'nitro' : 'correct');
+                showCoinPopup(`+${earned} 🪙`, streak >= 2 ? `${multiplier}x NITRO BOOST!` : null);
+
+                feedbackBox.className = "p-3.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-800 text-sm font-bold font-mono transition block";
+                feedbackBox.innerHTML = `✓ PERFECT! (${q.answers.map(a => a[0]).join(' / ')})`;
+
+                updateScoreboardUI();
+
+                setTimeout(() => {
+                    currentQuestionIdx++;
+                    renderQuestion();
+                }, 400);
+
+            } else {
+                streak = 0;
+                playSoundFx('wrong');
+
+                feedbackBox.className = "p-3.5 rounded-xl border border-rose-300 bg-rose-50 text-rose-800 text-sm font-bold font-mono transition block animate-bounce";
+                
+                const correctHint = q.answers.map((ansList, idx) => `[Gap ${idx + 1}: ${ansList.join(' OR ')}]`).join(' ');
+                feedbackBox.innerHTML = `❌ INCORRECT! Answers: <span class="text-rose-950 font-black">${correctHint}</span>`;
+
+                showCoinPopup(`STREAK BROKEN!`, null, true);
+                updateScoreboardUI();
+            }
+        }
+
+        function updateScoreboardUI() {
+            document.getElementById('raceCoins').innerText = scoreCoins;
+            document.getElementById('globalCoins').innerText = scoreCoins;
+
+            let multText = "1.0x";
+            if (streak >= 5) multText = "2.0x";
+            else if (streak >= 3) multText = "1.5x";
+            else if (streak >= 2) multText = "1.2x";
+
+            document.getElementById('comboMultiplier').innerText = multText;
+            const fire = document.getElementById('streakFire');
+            if (streak >= 2) {
+                fire.classList.remove('opacity-30');
+                fire.classList.add('animate-pulse');
+            } else {
+                fire.classList.add('opacity-30');
+                fire.classList.remove('animate-pulse');
+            }
+
+            const acc = totalAttempts > 0 ? Math.round((correctAnswersCount / totalAttempts) * 100) : 100;
+            document.getElementById('accuracyMini').innerText = `ACCURACY: ${acc}%`;
+        }
+
+        function showCoinPopup(text, streakLabel = null, isError = false) {
+            const container = document.getElementById('popupContainer');
+            const pop = document.createElement('div');
+            pop.className = `floating-coin-popup font-outfit font-black text-xl sm:text-3xl ${isError ? 'text-rose-600' : 'text-amber-500'} bg-white px-5 py-2.5 rounded-2xl border ${isError ? 'border-rose-300' : 'border-amber-300'} flex flex-col items-center shadow-lg`;
+
+            pop.innerHTML = `<span>${text}</span>` + (streakLabel ? `<span class="text-xs text-pink-600 font-bold">${streakLabel}</span>` : '');
+            container.appendChild(pop);
+
+            setTimeout(() => pop.remove(), 1000);
+        }
+
+        function finishGame() {
+            clearInterval(timerInterval);
+            playSoundFx('finish');
+
+            const totalTimeMs = Date.now() - startTime;
+            const secs = Math.floor(totalTimeMs / 1000);
+            const mins = Math.floor(secs / 60);
+            const remSecs = secs % 60;
+            const ms = Math.floor((totalTimeMs % 1000) / 100);
+            const formattedTime = `${String(mins).padStart(2, '0')}:${String(remSecs).padStart(2, '0')}.${ms}`;
+
+            const accuracy = Math.round((correctAnswersCount / totalAttempts) * 100);
+
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+            }
+
+            document.getElementById('finalTime').innerText = formattedTime;
+            document.getElementById('finalCoins').innerText = scoreCoins;
+            document.getElementById('finalAccuracy').innerText = `${accuracy}%`;
+            document.getElementById('finalCombo').innerText = `${maxStreak}x`;
+
+            saveScoreToLeaderboard({
+                name: activePlayer + (activePlayer === "Ms Barker" ? " 👑" : ""),
+                coins: scoreCoins,
+                timeMs: totalTimeMs,
+                timeFormatted: formattedTime,
+                accuracy: accuracy
+            });
+
+            document.getElementById('gameSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+        }
+
+        function showProfileSelect() {
+            clearInterval(timerInterval);
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('gameSection').classList.add('hidden');
+            document.getElementById('profileSection').classList.remove('hidden');
+        }
+
+        /* STORAGE & LEADERBOARD MANAGEMENT (Clean Slate Default) */
+        const STORAGE_KEY = 'LIGHT_THEME_FIRST_CONDITIONAL_RUSH_LEADERBOARD';
+
+        function loadLeaderboard() {
+            let data = localStorage.getItem(STORAGE_KEY);
+            let scores = data ? JSON.parse(data) : [];
+
+            scores.sort((a, b) => b.coins - a.coins || a.timeMs - b.timeMs);
+
+            populateTableBody('previewLeaderboardBody', scores.slice(0, 8));
+            populateTableBody('liveLeaderboardBody', scores.slice(0, 8));
+            populateTableBody('finalLeaderboardBody', scores);
+        }
+
+        function populateTableBody(elementId, scoresList) {
+            const tbody = document.getElementById(elementId);
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+
+            if (scoresList.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="${elementId === 'finalLeaderboardBody' ? 5 : 4}" class="py-8 text-center text-slate-400 font-mono italic">
+                            No records yet! Be the first to race! 🏎️
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            scoresList.forEach((entry, idx) => {
+                const tr = document.createElement('tr');
+                const isTop1 = idx === 0;
+                tr.className = isTop1 ? "bg-amber-50 text-amber-900 font-bold" : "text-slate-700";
+
+                let rankBadge = `${idx + 1}`;
+                if (idx === 0) rankBadge = "🥇";
+                if (idx === 1) rankBadge = "🥈";
+                if (idx === 2) rankBadge = "🥉";
+
+                tr.innerHTML = `
+                    <td class="py-2 pl-1 font-outfit">${rankBadge}</td>
+                    <td class="py-2 font-bold truncate max-w-[110px]">${entry.name}</td>
+                    <td class="py-2 text-right font-outfit text-amber-600">${entry.coins}</td>
+                    <td class="py-2 text-right font-mono text-[11px] text-slate-500">${entry.timeFormatted}</td>
+                    ${elementId === 'finalLeaderboardBody' ? `<td class="py-2 text-right pr-2 text-xs font-semibold">${entry.accuracy}%</td>` : ''}
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveScoreToLeaderboard(newEntry) {
+            let data = localStorage.getItem(STORAGE_KEY);
+            let scores = data ? JSON.parse(data) : [];
+
+            const existingIdx = scores.findIndex(s => s.name === newEntry.name);
+            if (existingIdx !== -1) {
+                if (newEntry.coins > scores[existingIdx].coins || (newEntry.coins === scores[existingIdx].coins && newEntry.timeMs < scores[existingIdx].timeMs)) {
+                    scores[existingIdx] = newEntry;
+                }
+            } else {
+                scores.push(newEntry);
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(scores));
+            loadLeaderboard();
+        }
+
+        function resetLeaderboardData() {
+            initAudio();
+            localStorage.removeItem(STORAGE_KEY);
+            loadLeaderboard();
+            playSoundFx('correct');
+        }
+    </script>
+</body>
+</html>
